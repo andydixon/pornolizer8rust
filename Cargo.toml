@@ -1,0 +1,12 @@
+[package]
+name = "pornolizer8"
+version = "0.1.0"
+authors = ["Andy Dixon <andy@andydixon.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+titlecase = "1.1.0"
+rand = "0.7.3"
+indexmap = "1.6.0"
