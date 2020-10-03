@@ -5,7 +5,7 @@ pub(crate) mod pornolizer_core {
     use titlecase::titlecase;
 
 
-    pub fn get_names() -> HashMap<String, Vec<String>, RandomState> {
+    fn get_names() -> HashMap<String, Vec<String>, RandomState> {
         let mut names = HashMap::new();
         names.insert(String::from("en"), vec![
             String::from("Big Cock"), String::from("Fuck me for a Buck"), String::from("Dirk Diggler"), String::from("Big Dick"), String::from("Give it to me"), String::from("Cock Sucker"), String::from("Up the Arse"),
@@ -60,7 +60,7 @@ pub(crate) mod pornolizer_core {
         return names;
     }
 
-    pub fn get_prose() -> HashMap<String, Vec<String>, RandomState> {
+    fn get_prose() -> HashMap<String, Vec<String>, RandomState> {
         let mut prose = HashMap::new();
 
         prose.insert(String::from("en"), vec![String::from("fuck"), String::from("smooch"), String::from("smack"), String::from("peck"), String::from("unclefuck"), String::from("spank"), String::from("motherfuck"), String::from("deep throat"), String::from("ballbust"), String::from("spew"), String::from("dripp"),

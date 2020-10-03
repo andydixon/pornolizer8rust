@@ -1,4 +1,5 @@
 mod pornolize;
+mod webpage_handler;
 use pornolize::pornolizer_core;
 
 fn main() {
@@ -9,4 +10,9 @@ Carol Holt from the Environment Agency said \"widespread and persistent rain\" i
 
 The forecasts are for 25-50mm (1-2 inch) of rainfall in many areas, but 40-70mm in Scotland, and 70-90mm possible over higher ground in Wales and south-west England.
 There is the potential for more than 120mm of rain on some of the most exposed high ground of Snowdonia and Exmoor and higher ground in Scotland.".to_string(), "en".to_string(), 99));
+
+    let request:webpage_handler::url_content = webpage_handler::webpage_handler::parse_url(String::from("http://www.aol.com"));
+
+    println!("Request Response:\n {:?}", request.response);
+
 }
