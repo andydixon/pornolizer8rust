@@ -1,8 +1,11 @@
-pub(crate) mod names {
+pub(crate) mod pornolizer_core {
     use std::collections::HashMap;
     use std::collections::hash_map::RandomState;
+    use rand::Rng;
+    use titlecase::titlecase;
 
-    pub fn getNames() -> HashMap<String, Vec<String>, RandomState> {
+
+    pub fn get_names() -> HashMap<String, Vec<String>, RandomState> {
         let mut names = HashMap::new();
         names.insert(String::from("en"), vec![
             String::from("Big Cock"), String::from("Fuck me for a Buck"), String::from("Dirk Diggler"), String::from("Big Dick"), String::from("Give it to me"), String::from("Cock Sucker"), String::from("Up the Arse"),
@@ -56,13 +59,8 @@ pub(crate) mod names {
             String::from("Springan"), String::from("Spettar"), String::from("Fuckar"), String::from("Bakis-knull"), String::from("Fylle-juck"), String::from("Drägg-knull")]);
         return names;
     }
-}
 
-pub(crate) mod prose {
-    use std::collections::HashMap;
-    use std::collections::hash_map::RandomState;
-
-    pub fn getProse() -> HashMap<String, Vec<String>, RandomState> {
+    pub fn get_prose() -> HashMap<String, Vec<String>, RandomState> {
         let mut prose = HashMap::new();
 
         prose.insert(String::from("en"), vec![String::from("fuck"), String::from("smooch"), String::from("smack"), String::from("peck"), String::from("unclefuck"), String::from("spank"), String::from("motherfuck"), String::from("deep throat"), String::from("ballbust"), String::from("spew"), String::from("dripp"),
@@ -98,5 +96,72 @@ pub(crate) mod prose {
                                               String::from("fylle-juck"), String::from("drägg-knull")]);
 
         return prose;
+    }
+
+
+    fn name_converter(text: String, language: &String, swearibility: i16) -> String {
+        let names = get_names();
+        let mut rng = rand::thread_rng();
+        let mut return_string: String = "".to_string();
+
+        match names.get(language) {
+            Some(name_array) => {
+                let word_array = text.split(" ");
+                let mut has_match = 0;
+                for n in word_array {
+                    if n == titlecase(n) {
+                        has_match = has_match + 1;
+                        if has_match == 2 {
+                            has_match = 0;
+                            if rng.gen_range(0, 100) < swearibility - 1 {
+                                let selected_name = &name_array[rng.gen_range(0, name_array.len())];
+
+                                return_string = return_string + &*"\"".to_string() + &selected_name + &*"\" ".to_string();
+                            }
+                        }
+                    } else {
+                        has_match = 0;
+                    }
+                    return_string = return_string + &n.to_string() + " ";
+                }
+            }
+            _ => {}
+        }
+        return return_string.to_owned();
+    }
+
+    fn prose_converter(text: String, language: &String, swearibility: i16) -> String {
+        let prose = get_prose();
+        let mut return_string: String = String::from("");
+        let word_array = text.split(" ");
+        let mut passed_word: String = String::from("");
+        let mut suffix = "";
+        let mut rng = rand::thread_rng();
+
+
+        match prose.get(language) {
+            Some(prose_array) => {
+                for w in word_array {
+                    if w.ends_with("ing") || w.ends_with("ed") || w.ends_with("s") {
+                        if w.ends_with("ing") { suffix = "ing"; }
+                        if w.ends_with("ed") { suffix = "ed"; }
+                        if w.ends_with("s") { suffix = "s"; }
+                        if rng.gen_range(0, 100) < swearibility - 1 {
+                            passed_word = String::from(&prose_array[rng.gen_range(0, prose_array.len())]) + suffix;
+                        }
+                        suffix = "";
+                    } else {
+                        passed_word = String::from(w);
+                    }
+                    return_string = return_string + &passed_word + " ";
+                }
+            }
+            None => { println!("Unsupported Language: {}", language) }
+        }
+        return return_string;
+    }
+
+    pub(crate) fn pornolize(text: String, language: String, swearibility: i16) -> String {
+        return prose_converter(name_converter(text, &language, swearibility), &language, swearibility);
     }
 }
