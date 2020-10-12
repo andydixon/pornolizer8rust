@@ -5,7 +5,6 @@ pub struct url_content {
     pub(crate) body: String
 }
 pub(crate) mod webpage_handler {
-    use crabquery::Document;
     use error_chain::error_chain;
     use std::io::Read;
     use reqwest;

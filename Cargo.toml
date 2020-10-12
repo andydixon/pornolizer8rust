@@ -10,6 +10,6 @@ edition = "2018"
 titlecase = "1.1.0"
 rand = "0.7.3"
 indexmap = "1.6.0"
-crabquery = "0.1.0"
+kuchiki = "0.8.1" # The HTML interpreter stuff
 error-chain = "0.12.4"
 reqwest = {version="0.10.8", features = ["blocking"]}
